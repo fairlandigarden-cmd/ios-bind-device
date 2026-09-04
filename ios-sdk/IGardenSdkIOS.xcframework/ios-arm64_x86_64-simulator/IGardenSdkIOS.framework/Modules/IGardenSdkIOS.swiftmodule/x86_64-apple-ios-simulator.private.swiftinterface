@@ -1,0 +1,538 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.2.1 effective-5.10 (swiftlang-6.2.1.4.8 clang-1700.4.4.1)
+// swift-module-flags: -target x86_64-apple-ios15.6-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name IGardenSdkIOS
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -formal-cxx-interoperability-mode=off -interface-compiler-version 6.2.1
+import CoreBluetooth
+import Foundation
+import Swift
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct IGardenBLEConstants : Swift.Sendable {
+  nonisolated public static let configCharacteristicUUID: CoreBluetooth.CBUUID
+  nonisolated public static let shortConfigUUID: CoreBluetooth.CBUUID
+  nonisolated public static let solarWriteCharacteristicUUID: CoreBluetooth.CBUUID
+  nonisolated public static let shortSolarWriteUUID: CoreBluetooth.CBUUID
+  nonisolated public static let solarReadCharacteristicUUID: CoreBluetooth.CBUUID
+  nonisolated public static let shortSolarReadUUID: CoreBluetooth.CBUUID
+  nonisolated public static let dpCharacteristicUUID: CoreBluetooth.CBUUID
+  nonisolated public static let shortDpUUID: CoreBluetooth.CBUUID
+  nonisolated public static let deviceNamePrefixes: [Swift.String]
+  nonisolated public static let defaultScanTimeout: Swift.Double
+  nonisolated public static let defaultConnectTimeout: Swift.Double
+  nonisolated public static let defaultOperationTimeout: Swift.Double
+}
+@_Concurrency.MainActor public protocol IGardenBLEManagerDelegate : AnyObject {
+  @_Concurrency.MainActor func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didUpdateState state: CoreBluetooth.CBManagerState)
+  @_Concurrency.MainActor func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi: Foundation.NSNumber)
+  @_Concurrency.MainActor func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didDisconnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  #endif
+}
+extension IGardenSdkIOS.IGardenBLEManagerDelegate {
+  @_Concurrency.MainActor public func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didUpdateState state: CoreBluetooth.CBManagerState)
+  @_Concurrency.MainActor public func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi: Foundation.NSNumber)
+  @_Concurrency.MainActor public func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public func bleManager(_ manager: IGardenSdkIOS.IGardenBLEManager, didDisconnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  #endif
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class IGardenBLEManager : ObjectiveC.NSObject {
+  @_Concurrency.MainActor public static let shared: IGardenSdkIOS.IGardenBLEManager
+  @_Concurrency.MainActor weak final public var delegate: (any IGardenSdkIOS.IGardenBLEManagerDelegate)?
+  @_Concurrency.MainActor final public var connectedPeripheral: CoreBluetooth.CBPeripheral? {
+    get
+  }
+  @_Concurrency.MainActor final public var configCharacteristic: CoreBluetooth.CBCharacteristic? {
+    get
+  }
+  @_Concurrency.MainActor final public var solarWriteCharacteristic: CoreBluetooth.CBCharacteristic? {
+    get
+  }
+  @_Concurrency.MainActor final public var solarReadCharacteristic: CoreBluetooth.CBCharacteristic? {
+    get
+  }
+  @_Concurrency.MainActor final public var onNotifyReceived: ((CoreBluetooth.CBCharacteristic, Foundation.Data) -> Swift.Void)?
+  @_Concurrency.MainActor final public var isBluetoothPoweredOn: Swift.Bool {
+    get
+  }
+  @_Concurrency.MainActor final public func startScan(timeout: Foundation.TimeInterval = IGardenBLEConstants.defaultScanTimeout)
+  nonisolated final public func stopScan()
+  @_Concurrency.MainActor final public func connect(to peripheral: CoreBluetooth.CBPeripheral, timeout: Foundation.TimeInterval = IGardenBLEConstants.defaultConnectTimeout) async throws
+  nonisolated final public func disconnect()
+  @_Concurrency.MainActor final public func discoverCharacteristics(on peripheral: CoreBluetooth.CBPeripheral, timeout: Foundation.TimeInterval = IGardenBLEConstants.defaultOperationTimeout) async throws
+  @_Concurrency.MainActor final public func discoverConfigCharacteristic(on peripheral: CoreBluetooth.CBPeripheral) async throws
+  @_Concurrency.MainActor final public func setNotify(_ enabled: Swift.Bool, for characteristic: CoreBluetooth.CBCharacteristic, on peripheral: CoreBluetooth.CBPeripheral) async throws
+  @_Concurrency.MainActor final public func writeData(_ data: Foundation.Data, to characteristic: CoreBluetooth.CBCharacteristic, on peripheral: CoreBluetooth.CBPeripheral) async throws
+  @_Concurrency.MainActor final public func writeConfigData(_ data: Foundation.Data, to peripheral: CoreBluetooth.CBPeripheral) async throws
+  @_Concurrency.MainActor final public func readData(from characteristic: CoreBluetooth.CBCharacteristic, on peripheral: CoreBluetooth.CBPeripheral, timeout: Foundation.TimeInterval = IGardenBLEConstants.defaultOperationTimeout) async throws -> Foundation.Data
+  @_Concurrency.MainActor final public func readConfigData(from peripheral: CoreBluetooth.CBPeripheral) async throws -> Foundation.Data
+  @objc deinit
+}
+extension IGardenSdkIOS.IGardenBLEManager : CoreBluetooth.CBCentralManagerDelegate {
+  @objc nonisolated final public func centralManagerDidUpdateState(_ central: CoreBluetooth.CBCentralManager)
+  @objc nonisolated final public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDiscover peripheral: CoreBluetooth.CBPeripheral, advertisementData: [Swift.String : Any], rssi RSSI: Foundation.NSNumber)
+  @objc nonisolated final public func centralManager(_ central: CoreBluetooth.CBCentralManager, didConnect peripheral: CoreBluetooth.CBPeripheral)
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func centralManager(_ central: CoreBluetooth.CBCentralManager, didFailToConnect peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func centralManager(_ central: CoreBluetooth.CBCentralManager, didDisconnectPeripheral peripheral: CoreBluetooth.CBPeripheral, error: (any Swift.Error)?)
+  #endif
+}
+extension IGardenSdkIOS.IGardenBLEManager : CoreBluetooth.CBPeripheralDelegate {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverServices error: (any Swift.Error)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didDiscoverCharacteristicsFor service: CoreBluetooth.CBService, error: (any Swift.Error)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didWriteValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateValueFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @objc nonisolated final public func peripheral(_ peripheral: CoreBluetooth.CBPeripheral, didUpdateNotificationStateFor characteristic: CoreBluetooth.CBCharacteristic, error: (any Swift.Error)?)
+  #endif
+}
+public struct BindInfoBean : Swift.Codable {
+  public let bindToken: Swift.String
+  public let groupId: Swift.String
+  public init(bindToken: Swift.String, groupId: Swift.String)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct BindResultBean : Swift.Codable {
+  public let deviceId: Swift.String?
+  public let deviceName: Swift.String?
+  public let productCode: Swift.String?
+  public let sn: Swift.String?
+  public let isBound: Swift.Bool?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(deviceId: Swift.String? = nil, deviceName: Swift.String? = nil, productCode: Swift.String? = nil, sn: Swift.String? = nil, isBound: Swift.Bool? = true)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceConfigInfoBean : Swift.Codable {
+  public let v: Swift.String?
+  public let code: Swift.Int?
+  public let sn: Swift.String?
+  public let pid: Swift.String?
+  public let msg: Swift.String?
+  public var isSuccess: Swift.Bool {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(v: Swift.String? = nil, code: Swift.Int? = nil, sn: Swift.String? = nil, pid: Swift.String? = nil, msg: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parse(from data: Foundation.Data) -> IGardenSdkIOS.DeviceConfigInfoBean?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parse(from string: Swift.String) -> IGardenSdkIOS.DeviceConfigInfoBean?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceConfigInfoEntity : Swift.Codable {
+  public var s: Swift.String
+  public var pw: Swift.String
+  public var bHost: Swift.String
+  public var gid: Swift.String
+  public var btk: Swift.String
+  public var f: Swift.Int
+  public var z: Swift.String
+  public var ex1: Swift.String?
+  public var ex2: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(ssid: Swift.String, password: Swift.String, brokerHost: Swift.String, groupId: Swift.String, bindToken: Swift.String, flag: Swift.Int = 2, timeZoneOffset: Swift.String = IGardenTimeUtils.getTimeZoneOffsetString(), ex1: Swift.String? = nil, ex2: Swift.String? = nil)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toJSONString() -> Swift.String?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toData() -> Foundation.Data?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceConfigResultBean : Swift.Codable {
+  public let code: Swift.Int
+  public init(code: Swift.Int = 0)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toData() -> Foundation.Data?
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toJSONString() -> Swift.String?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum IGardenError : Foundation.LocalizedError, Swift.Equatable {
+  case bluetoothUnauthorized
+  case bluetoothPoweredOff
+  case locationUnauthorized
+  case deviceNotFound
+  case bleConnectionFailed(reason: Swift.String?)
+  case bleDisconnected
+  case serviceNotFound
+  case characteristicNotFound
+  case writeCharacteristicFailed
+  case readCharacteristicFailed
+  case invalidDeviceResponse(raw: Swift.String?)
+  case deviceRejected(code: Swift.Int, msg: Swift.String?)
+  case networkUnavailable
+  case invalidUserToken
+  case fetchBindTokenFailed(msg: Swift.String?)
+  case cloudBindTimeout
+  case cloudBindFailed(msg: Swift.String?)
+  case cancelledByUser
+  case timeout
+  case unknown(message: Swift.String)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public var errorDescription: Swift.String? {
+    get
+  }
+  #endif
+  public var code: Swift.Int {
+    get
+  }
+  public static func == (a: IGardenSdkIOS.IGardenError, b: IGardenSdkIOS.IGardenError) -> Swift.Bool
+}
+public struct BaseResponseBean<T> : Swift.Decodable, Swift.Sendable where T : Swift.Decodable {
+  public let code: Swift.Int
+  public let msg: Swift.String?
+  public let data: T?
+  public var isSuccess: Swift.Bool {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceBindInfoBean : Swift.Decodable, Swift.Sendable {
+  public let bindToken: Swift.String
+  public let groupId: Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct DeviceBindResultBean : Swift.Decodable, Swift.Sendable {
+  public let isSuccess: Swift.Bool
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType7ReqPacket : Swift.Codable, Swift.Sendable {
+  public let type: Swift.Int
+  public let shard: Swift.Bool
+  public let data: IGardenSdkIOS.SolarType7ReqData
+  public init(identity: Swift.String = UUID().uuidString.lowercased(), admin: Swift.Int = 1)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toData() -> Foundation.Data?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType7ReqData : Swift.Codable, Swift.Sendable {
+  public let identity: Swift.String
+  public let admin: Swift.Int
+  public init(identity: Swift.String, admin: Swift.Int = 1)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType0ReqPacket : Swift.Codable, Swift.Sendable {
+  public let type: Swift.Int
+  public let shard: Swift.Bool
+  public let data: IGardenSdkIOS.SolarType0ReqData
+  public init(initFlag: Swift.Bool = true)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toData() -> Foundation.Data?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType0ReqData : Swift.Codable, Swift.Sendable {
+  public let initFlag: Swift.Bool
+  public init(initFlag: Swift.Bool = true)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType0RespPacket : Swift.Codable, Swift.Sendable {
+  public let ack: Swift.Bool?
+  public let type: Swift.Int?
+  public let shard: Swift.Bool?
+  public let time: Swift.Int64?
+  public let data: IGardenSdkIOS.SolarType0RespData?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parse(from data: Foundation.Data) -> IGardenSdkIOS.SolarType0RespPacket?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType0RespData : Swift.Codable, Swift.Sendable {
+  public let initStatus: Swift.Int?
+  public let mac: Swift.String?
+  public let pid: Swift.String?
+  public let iotid: Swift.String?
+  public let checkcode: Swift.String?
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType4ReqPacket : Swift.Codable, Swift.Sendable {
+  public let type: Swift.Int
+  public let shard: Swift.Bool
+  public let data: IGardenSdkIOS.SolarType4ReqData
+  public init(userName: Swift.String, passWord: Swift.String, mqttUrl: Swift.String, wifiSsid: Swift.String, wifiPwd: Swift.String, netMode: Swift.Int = 0)
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func toData() -> Foundation.Data?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarType4ReqData : Swift.Codable, Swift.Sendable {
+  public let userName: Swift.String
+  public let passWord: Swift.String
+  public let mqttUrl: Swift.String
+  public let wifiSsid: Swift.String
+  public let wifiPwd: Swift.String
+  public let netMode: Swift.Int
+  public init(userName: Swift.String, passWord: Swift.String, mqttUrl: Swift.String, wifiSsid: Swift.String, wifiPwd: Swift.String, netMode: Swift.Int = 0)
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarCommonRespPacket : Swift.Codable, Swift.Sendable {
+  public let ack: Swift.Bool?
+  public let type: Swift.Int?
+  public let shard: Swift.Bool?
+  public let time: Swift.Int64?
+  public let data: IGardenSdkIOS.SolarCodeRespData?
+  public var isSuccess: Swift.Bool {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public static func parse(from data: Foundation.Data) -> IGardenSdkIOS.SolarCommonRespPacket?
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct SolarCodeRespData : Swift.Codable, Swift.Sendable {
+  public let code: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+  public var isSuccess: Swift.Bool {
+    get
+  }
+}
+public struct SolarBindResponseBean : Swift.Codable, Swift.Sendable {
+  public let userName: Swift.String?
+  public let passWord: Swift.String?
+  public let mqttUrl: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(userName: Swift.String? = nil, passWord: Swift.String? = nil, mqttUrl: Swift.String? = nil)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum IGardenAPIEndpoint : Swift.Sendable {
+  case getBindToken
+  case bindDevice(bodyData: Foundation.Data)
+  case getBindResult(productCode: Swift.String, sn: Swift.String)
+  public var path: Swift.String {
+    get
+  }
+  public var httpMethod: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public func url(for environment: IGardenSdkIOS.IGardenEnvironment) -> Foundation.URL?
+  #endif
+}
+public enum IGardenEnvironment : Swift.Int, Swift.CaseIterable, Swift.Sendable {
+  case dev
+  case test
+  case sit
+  case cn
+  case eu
+  case us
+  public var baseURLString: Swift.String {
+    get
+  }
+  public var brokerHost: Swift.String {
+    get
+  }
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias AllCases = [IGardenSdkIOS.IGardenEnvironment]
+  public typealias RawValue = Swift.Int
+  nonisolated public static var allCases: [IGardenSdkIOS.IGardenEnvironment] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct DeviceBindRequestEntity : Swift.Codable, Swift.Sendable {
+  public let bindToken: Swift.String
+  public let productCode: Swift.String
+  public let sn: Swift.String
+  public let deviceName: Swift.String?
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init(bindToken: Swift.String, productCode: Swift.String, sn: Swift.String, deviceName: Swift.String? = nil)
+  #endif
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+@_hasMissingDesignatedInitializers final public class IGardenNetworkManager : @unchecked Swift.Sendable {
+  public static let shared: IGardenSdkIOS.IGardenNetworkManager
+  final public var environment: IGardenSdkIOS.IGardenEnvironment
+  final public var userToken: Swift.String
+  final public func cancelPolling()
+  #if compiler(>=5.3) && $AsyncExecutionBehaviorAttributes
+  final nonisolated(nonsending) public func fetchBindToken() async throws -> (bindToken: Swift.String, groupId: Swift.String)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes && $AsyncExecutionBehaviorAttributes
+  nonisolated(nonsending) final public func bindDevice(productCode: Swift.String, sn: Swift.String, bindToken: Swift.String, deviceName: Swift.String? = nil) async throws
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes && $AsyncExecutionBehaviorAttributes
+  nonisolated(nonsending) final public func bindSolarDevice(productCode: Swift.String, iotid: Swift.String, mac: Swift.String?, checkCode: Swift.String?, bindToken: Swift.String, deviceName: Swift.String? = nil) async throws -> IGardenSdkIOS.SolarBindResponseBean
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes && $AsyncExecutionBehaviorAttributes
+  nonisolated(nonsending) final public func pollBindResult(productCode: Swift.String, sn: Swift.String, intervalSeconds: Foundation.TimeInterval = 2.0, maxAttempts: Swift.Int = 50, onProgress: (@Sendable (Swift.Int, Swift.Int) -> Swift.Void)? = nil) async throws -> Swift.Bool
+  #endif
+  @objc deinit
+}
+public struct EmptyDataBean : Swift.Codable, Swift.Sendable {
+  public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum IGardenDeviceType : Swift.Sendable {
+  case common
+  case solar
+  public static func == (a: IGardenSdkIOS.IGardenDeviceType, b: IGardenSdkIOS.IGardenDeviceType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum IGardenConfigStep : Swift.Sendable, Swift.Equatable {
+  case fetchingToken
+  case connectingBLE
+  case discoveringService
+  case enablingNotification
+  case readingDeviceIdentity
+  case sendingWiFiConfig
+  case bindingCloudDevice
+  case notifyingDeviceExit
+  case pollingCloudResult(attempt: Swift.Int, max: Swift.Int)
+  case success(sn: Swift.String, pid: Swift.String)
+  public static func == (a: IGardenSdkIOS.IGardenConfigStep, b: IGardenSdkIOS.IGardenConfigStep) -> Swift.Bool
+}
+@_Concurrency.MainActor public class BaseConfigProcess {
+  @_Concurrency.MainActor public init()
+  @_Concurrency.MainActor public func cancel()
+  @_Concurrency.MainActor public func start(peripheral: CoreBluetooth.CBPeripheral, ssid: Swift.String, password: Swift.String, onStepChange: @escaping @_Concurrency.MainActor @Sendable (IGardenSdkIOS.IGardenConfigStep) -> Swift.Void) async throws -> (sn: Swift.String, pid: Swift.String)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor final public class CommonConfigProcess : IGardenSdkIOS.BaseConfigProcess {
+  @_Concurrency.MainActor override public init()
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_Concurrency.MainActor final public class SolarConfigProcess : IGardenSdkIOS.BaseConfigProcess {
+  @_Concurrency.MainActor override public init()
+  @objc deinit
+}
+public enum IGardenLogLevel : Swift.Int, Swift.Comparable, Swift.Sendable {
+  case debug
+  case info
+  case warn
+  case error
+  case none
+  public static func < (lhs: IGardenSdkIOS.IGardenLogLevel, rhs: IGardenSdkIOS.IGardenLogLevel) -> Swift.Bool
+  #if compiler(>=5.3) && $NonescapableTypes
+  public init?(rawValue: Swift.Int)
+  #endif
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers final public class IGardenLog : @unchecked Swift.Sendable {
+  nonisolated public static var isEnabled: Swift.Bool {
+    get
+    set
+  }
+  nonisolated public static var minLevel: IGardenSdkIOS.IGardenLogLevel {
+    get
+    set
+  }
+  nonisolated public static var tag: Swift.String {
+    get
+    set
+  }
+  nonisolated public static func d(_ message: @autoclosure () -> Any, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  nonisolated public static func i(_ message: @autoclosure () -> Any, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  nonisolated public static func w(_ message: @autoclosure () -> Any, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  nonisolated public static func e(_ message: @autoclosure () -> Any, file: Swift.String = #file, function: Swift.String = #function, line: Swift.Int = #line)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class IGardenStorage {
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func set<T>(_ value: T?, forKey key: Swift.String)
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func string(forKey key: Swift.String) -> Swift.String?
+  #endif
+  @_Concurrency.MainActor public static func bool(forKey key: Swift.String, default defaultValue: Swift.Bool = false) -> Swift.Bool
+  @_Concurrency.MainActor public static func int(forKey key: Swift.String, default defaultValue: Swift.Int = 0) -> Swift.Int
+  @_Concurrency.MainActor public static func double(forKey key: Swift.String, default defaultValue: Swift.Double = 0.0) -> Swift.Double
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func setCodable<T>(_ object: T?, forKey key: Swift.String) where T : Swift.Decodable, T : Swift.Encodable
+  #endif
+  #if compiler(>=5.3) && $NonescapableTypes
+  @_Concurrency.MainActor public static func codable<T>(forKey key: Swift.String, as type: T.Type) -> T? where T : Swift.Decodable, T : Swift.Encodable
+  #endif
+  @_Concurrency.MainActor public static func remove(forKey key: Swift.String)
+  @_Concurrency.MainActor public static func clearAll()
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class IGardenTimeUtils {
+  public static func getTimeZoneOffsetString(from timeZone: Foundation.TimeZone = .current) -> Swift.String
+  public static func getTimeZoneIdentifier() -> Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @_Concurrency.MainActor final public class IGardenConfigDevice {
+  @_Concurrency.MainActor public static let shared: IGardenSdkIOS.IGardenConfigDevice
+  nonisolated final public func stopConfig()
+  @discardableResult
+  @_Concurrency.MainActor final public func startConfig(deviceType: IGardenSdkIOS.IGardenDeviceType = .common, peripheral: CoreBluetooth.CBPeripheral, ssid: Swift.String, password: Swift.String, onStepChange: @escaping @_Concurrency.MainActor @Sendable (IGardenSdkIOS.IGardenConfigStep) -> Swift.Void) async throws -> (sn: Swift.String, pid: Swift.String)
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers final public class IGardenSDK : Swift.Sendable {
+  public static let shared: IGardenSdkIOS.IGardenSDK
+  public static func initialize(environment: IGardenSdkIOS.IGardenEnvironment = .cn, userToken: Swift.String = "", enableLog: Swift.Bool = true, minLogLevel: IGardenSdkIOS.IGardenLogLevel = .debug)
+  public static func updateUserToken(_ token: Swift.String)
+  public static func updateEnvironment(_ environment: IGardenSdkIOS.IGardenEnvironment)
+  public static func setLogEnabled(_ isEnabled: Swift.Bool)
+  nonisolated public static var configDevice: IGardenSdkIOS.IGardenConfigDevice {
+    get
+  }
+  nonisolated public static var bleManager: IGardenSdkIOS.IGardenBLEManager {
+    get
+  }
+  nonisolated public static var networkManager: IGardenSdkIOS.IGardenNetworkManager {
+    get
+  }
+  public static let sdkVersion: Swift.String
+  @objc deinit
+}
+extension IGardenSdkIOS.IGardenBLEManager : Swift.Sendable {}
+extension IGardenSdkIOS.IGardenEnvironment : Swift.Equatable {}
+extension IGardenSdkIOS.IGardenEnvironment : Swift.Hashable {}
+extension IGardenSdkIOS.IGardenEnvironment : Swift.RawRepresentable {}
+extension IGardenSdkIOS.IGardenDeviceType : Swift.Equatable {}
+extension IGardenSdkIOS.IGardenDeviceType : Swift.Hashable {}
+extension IGardenSdkIOS.BaseConfigProcess : Swift.Sendable {}
+extension IGardenSdkIOS.IGardenLogLevel : Swift.Hashable {}
+extension IGardenSdkIOS.IGardenLogLevel : Swift.RawRepresentable {}
+extension IGardenSdkIOS.IGardenStorage : Swift.Sendable {}
+extension IGardenSdkIOS.IGardenConfigDevice : Swift.Sendable {}

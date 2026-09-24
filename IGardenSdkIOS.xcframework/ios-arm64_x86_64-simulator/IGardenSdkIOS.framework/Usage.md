@@ -142,6 +142,14 @@ class ProvisioningViewController: UIViewController {
     
     var selectedPeripheral: CBPeripheral!
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // 返回上一页或页面被 dismiss 时，立即停止正在进行的配网流程
+        guard isMovingFromParent || isBeingDismissed else { return }
+        IGardenSDK.configDevice.stopConfig()
+    }
+    
     /// 发起配网
     /// - Parameters:
     ///   - deviceType: 模组类型 (.common 通用模组 / .solar 新能源设备)
